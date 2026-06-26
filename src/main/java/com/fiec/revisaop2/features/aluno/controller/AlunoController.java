@@ -4,10 +4,10 @@ import com.fiec.revisaop2.features.aluno.models.dto.LoginAlunoDto;
 import com.fiec.revisaop2.features.aluno.models.dto.RegisterAlunoDto;
 import com.fiec.revisaop2.features.aluno.models.dto.ResponseAlunoDto;
 import com.fiec.revisaop2.features.aluno.services.AlunoService;
-import com.fiec.revisaop2.features.usuario.models.dto.LoginUserDTO;
-import com.fiec.revisaop2.features.usuario.models.dto.RegisterUserDTO;
-import com.fiec.revisaop2.features.usuario.models.dto.UserResponseDTO;
-import com.fiec.revisaop2.features.usuario.services.UsuarioService;
+import com.fiec.revisaop2.features.aluno.models.dto.LoginAlunoDto;
+import com.fiec.revisaop2.features.aluno.models.dto.RegisterAlunoDto;
+import com.fiec.revisaop2.features.aluno.models.dto.ResponseAlunoDto;
+import com.fiec.revisaop2.features.aluno.services.AlunoService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +25,24 @@ public class AlunoController {
     ResponseEntity<Void> registraAluno(@RequestBody RegisterAlunoDto registerAlunoDto) {
         alunoService.registraAluno(registerAlunoDto);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{userId}/imagem")
+    public ResponseEntity<?> fazerUploadImagem(
+            @RequestParam("imagem") MultipartFile file,
+            @PathVariable String userId) {
+
+        try {
+            if (file.isEmpty()) {
+                return ResponseEntity.badRequest().body("Por favor, selecione um ficheiro.");
+            }
+            alunoService.insereImagem(file, userId);
+
+            return ResponseEntity.ok().body("{\"status\": \"sucesso\"}");
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("{\"erro\": \"" + e.getMessage() + "\"}");
+        }
     }
 
     @PostMapping("/login")

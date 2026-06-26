@@ -1,6 +1,9 @@
+server:
+  port: 5000
 spring:
   application:
     name: ${DB_PROJECT_NAME:revisaop2}
+
 
   main:
     allow-bean-definition-overriding: true
@@ -46,7 +49,8 @@ spring:
 cloud:
   aws:
     region:
-      static: ${AWS_REGION:us-east-1}
+      static: ${AWS_REGION:us-east-2}
     credentials:
-      access-key: ${AWS_ACCESS_KEY_ID}
-      secret-key: ${AWS_SECRET_ACCESS_KEY}
+      aws:
+        access-key: "SUA_CHAVE_AQUI"
+        secret-key: "SEU_SECRET_AQUI"
